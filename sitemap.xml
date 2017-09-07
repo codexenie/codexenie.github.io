@@ -23,13 +23,6 @@
   </url>
   
   <url>
-    <loc>https://github.com/codexenie/MIS_MATCH_MEM_MAN/</loc>
-    
-    <lastmod>2017-09-07T01:46:58.059Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://github.com/codexenie/MIS_BRACE/</loc>
     
     <lastmod>2017-09-07T01:46:58.059Z</lastmod>
@@ -37,14 +30,7 @@
   </url>
   
   <url>
-    <loc>https://github.com/codexenie/REDUNDANT_COND/</loc>
-    
-    <lastmod>2017-09-07T01:46:58.059Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://github.com/codexenie/RETURN-REFERENCE/</loc>
+    <loc>https://github.com/codexenie/MIS_MATCH_MEM_MAN/</loc>
     
     <lastmod>2017-09-07T01:46:58.059Z</lastmod>
     
@@ -58,7 +44,14 @@
   </url>
   
   <url>
-    <loc>https://github.com/codexenie/VIRTUAL_DESTRUCTOR/</loc>
+    <loc>https://github.com/codexenie/RETURN-REFERENCE/</loc>
+    
+    <lastmod>2017-09-07T01:46:58.059Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://github.com/codexenie/REDUNDANT_COND/</loc>
     
     <lastmod>2017-09-07T01:46:58.059Z</lastmod>
     
@@ -66,6 +59,13 @@
   
   <url>
     <loc>https://github.com/codexenie/SAME_TREE/</loc>
+    
+    <lastmod>2017-09-07T01:46:58.059Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://github.com/codexenie/VIRTUAL_DESTRUCTOR/</loc>
     
     <lastmod>2017-09-07T01:46:58.059Z</lastmod>
     
