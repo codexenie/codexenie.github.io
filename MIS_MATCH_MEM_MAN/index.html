@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>MIS_MATCH_MEM_MAN · codeXenie Rule Page</title><meta name="description" content="MIS_MATCH_MEM_MAN - CodeScroll"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="https://avatars1.githubusercontent.com/u/29533708?v=3&amp;s=460"><link rel="stylesheet" href="/css/gandalfr.css"><link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/solarized-light.css"><link rel="search" type="application/opensearchdescription+xml" href="https://github.com/codexenie/atom.xml" title="codeXenie Rule Page"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="http://cfile203.uf.daum.net/image/23489C4B5768FA031D7EBA" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">HOME</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><div class="post-content"><h2 id="Mismatched-Memory-Management-Prohibit-allocating-and-deallocating-dynamic-memory-not-consistent-with-each-other"><a href="#Mismatched-Memory-Management-Prohibit-allocating-and-deallocating-dynamic-memory-not-consistent-with-each-other" class="headerlink" title="Mismatched_Memory_Management Prohibit allocating and deallocating dynamic memory not consistent with each other"></a>Mismatched_Memory_Management Prohibit allocating and deallocating dynamic memory not consistent with each other</h2><hr>
+<p>A dynamic memory shall be allocated and deallocated by checking it more clearly than the other component of C/C++ language.</p>
+<h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><p>When deallocating a memory allocated dynamically, using inappropriate deallocation function is an undefined behavior. If the memory is not deallocated correctly, the memory can be damaged or the program can be ended.<br>The memory allocation and deallocation shall be executed in pair as the following table.</p>
+<table>
+<thead>
+<tr>
+<th>allocation</th>
+<th>deallocation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>allocator<t>::allocate()</t></td>
+<td>allocator<t>::deallocate()</t></td>
+</tr>
+<tr>
+<td>operator new()/new</td>
+<td>operator delete()/delete</td>
+</tr>
+<tr>
+<td>operator new<a href=""></a>/new[]</td>
+<td>operator delete<a href=""></a>/delete[]</td>
+</tr>
+<tr>
+<td>std::malloc(), std::calloc(), std::realloc()</td>
+<td>std::free()</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-1"><a href="#example-1" class="headerlink" title="example 1"></a><strong>example 1</strong></h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</div><div class="line">  BarObj *ptr = <span class="keyword">new</span> BarObj()</div><div class="line">  <span class="comment">/* do some work with ptr here */</span></div><div class="line">  ...</div><div class="line"></div><div class="line">  <span class="built_in">free</span>(ptr);</div><div class="line">&#125;</div><div class="line">...</div><div class="line"><span class="built_in">free</span>(ptr);</div></pre></td></tr></table></figure>
+<p>The pointer allocated as a new shall not be deallocated by a free().</p>
+<h4 id="alternative-1"><a href="#alternative-1" class="headerlink" title="alternative 1"></a><strong>alternative 1</strong></h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</div><div class="line">  BarObj *ptr = <span class="keyword">new</span> BarObj()</div><div class="line">  <span class="comment">/* do some work with ptr here */</span></div><div class="line">  ...</div><div class="line"></div><div class="line"><span class="keyword">delete</span> ptr;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>It shall be deallocated correctly by a delete.</p>
+<h4 id="example-2"><a href="#example-2" class="headerlink" title="example 2"></a><strong>example 2</strong></h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">int</span> *<span class="built_in">array</span> = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</div><div class="line">  <span class="comment">// ...</span></div><div class="line">  <span class="keyword">delete</span> <span class="built_in">array</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>The pointer allocated as a new[] shall not be deallocated by a delete.</p>
+<h4 id="alternative-2"><a href="#alternative-2" class="headerlink" title="alternative 2"></a><strong>alternative 2</strong></h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">int</span> *<span class="built_in">array</span> = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</div><div class="line">  <span class="comment">// ...</span></div><div class="line">  <span class="keyword">delete</span> <span class="built_in">array</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>The pointer allocated as a new[] shall be deallocated surely by delete [].</p>
+<h3 id="Related-Link"><a href="#Related-Link" class="headerlink" title="Related Link"></a>Related Link</h3><ul>
+<li><a href="http://cwe.mitre.org/data/definitions/762.html" target="_blank" rel="external">CWE-762: Mismatched Memory Management Routines</a></li>
+<li><a href="https://www.securecoding.cert.org/confluence/display/cplusplus/MEM31-CPP.+Properly+deallocate+dynamically+allocated+resources" target="_blank" rel="external">CERT C++  MEM31-CPP. Properly deallocate dynamically allocated resources</a></li>
+</ul>
+<hr>
+</div></article></div></main><footer><div class="paginator"><a href="/LACK_INIT_OBJ/" class="prev">PREV</a><a href="/MIS_BRACE/" class="next">NEXT</a></div><div class="copyright"><p>© 2017 <a href="https://github.com/codexenie">CodeScroll</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/MikeCoder/hexo-theme-gandalfr" target="_blank">hexo-theme-gandalfr</a>.</p></div></footer></div><script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" crossorigin="anonymous"></script><script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js" crossorigin="anonymous"></script><script>$(document).ready(function() { $('pre').each(function(i, block) { hljs.highlightBlock(block); }); });</script></body></html>
